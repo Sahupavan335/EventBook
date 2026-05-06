@@ -220,8 +220,29 @@ export const UserDashboard = () => {
 
                   </div>
 
-                  <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
-                    {booking.status}
+                  <span
+                    className={`px-3 py-1 rounded-lg text-sm font-medium border
+                      ${
+                        booking.status === "pending"
+                          ? "bg-yellow-100 text-yellow-700 border-yellow-200"
+
+                        : booking.status === "confirmed"
+                          ? "bg-blue-100 text-blue-700 border-blue-200"
+
+                        : booking.status === "cancelled"
+                          ? "bg-red-100 text-red-700 border-red-200"
+
+                        : booking.status === "completed"
+                          ? "bg-green-100 text-green-700 border-green-200"
+
+                        : "bg-slate-100 text-slate-700 border-slate-200"
+                      }
+                    `}
+                  >
+                    {booking.status === "confirmed"
+                      ? "Accepted"
+                      : booking.status.charAt(0).toUpperCase() +
+                        booking.status.slice(1)}
                   </span>
 
                 </div>

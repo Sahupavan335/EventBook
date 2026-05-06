@@ -219,7 +219,11 @@ export const ProviderDashboard = () => {
         )
       );
 
-      toast.success(`Booking ${status}`);
+      toast.success(
+        status === "confirmed"
+          ? "Booking accepted"
+          : "Booking rejected"
+      );
 
     } catch (err) {
       toast.error(err.message);
@@ -419,7 +423,7 @@ export const ProviderDashboard = () => {
                         onClick={() =>
                           updateBookingStatus(
                             booking.id,
-                            "accepted"
+                            "confirmed"
                           )
                         }
                         className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm"
@@ -431,7 +435,7 @@ export const ProviderDashboard = () => {
                         onClick={() =>
                           updateBookingStatus(
                             booking.id,
-                            "rejected"
+                            "cancelled"
                           )
                         }
                         className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm"
