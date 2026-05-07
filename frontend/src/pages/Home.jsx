@@ -328,8 +328,13 @@ export const Home = () => {
           <p className="text-slate-300 mb-8 max-w-lg mx-auto">
             Join our marketplace and reach thousands of clients looking for your services.
           </p>
-
-          <Link to="/signup">
+          
+          <Link to={
+              user?.role === "provider"
+              ? "/provider-dashboard"
+              : "/signup"
+            }
+          >
             <button className="bg-white text-slate-950 hover:bg-slate-100 rounded-lg px-8 h-11 font-medium">
               Get Started
             </button>

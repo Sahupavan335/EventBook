@@ -184,7 +184,7 @@ export const Services = () => {
           <button
             key={cat}
             onClick={() => handleCategory(cat)}
-            className={`h-9 px-4 rounded-lg text-sm transition hover:bg-slate-900 hover:text-white
+            className={`h-9 px-4 border rounded-lg text-sm transition hover:bg-slate-900 hover:text-white
               ${activeCategory === cat
                 ? "bg-slate-900 text-white"
                 : "bg-white text-slate-600"

@@ -5,7 +5,9 @@ import {
   DollarSign,
   Plus,
   Pencil,
-  Trash2
+  Trash2,
+  Check,
+  X
 } from "lucide-react";
 
 import { useState, useEffect } from "react";
@@ -36,7 +38,6 @@ export const ProviderDashboard = () => {
     description: "",
     image: ""
   });
-
   /* ===========================
      FETCH DATA
   =========================== */
@@ -239,7 +240,7 @@ export const ProviderDashboard = () => {
   const totalBookings = bookings.length;
 
   const earnings = bookings
-    .filter(b => b.status === "accepted")
+    .filter(b => b.status === "confirmed")
     .reduce(
       (acc, curr) => acc + Number(curr.price || 0),
       0
@@ -397,7 +398,7 @@ export const ProviderDashboard = () => {
                     className="border rounded-xl p-4"
                   >
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col">
 
                       <div>
 
@@ -406,42 +407,76 @@ export const ProviderDashboard = () => {
                         </h4>
 
                         <p className="text-sm text-slate-500 mt-1">
-                          {booking.user_name}
+                          Date: {new Date(booking.booking_date).toLocaleDateString(
+                            "en-US",
+                            {
+                              weekday: "short",
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric"
+                            }
+                          )}
+                        </p>
+
+                        <p className="text-sm text-slate-500 mt-1">
+                          Customer: {booking.customer}
                         </p>
 
                       </div>
 
-                      <span className="font-semibold">
-                        ${booking.price}
-                      </span>
-
                     </div>
 
-                    <div className="flex gap-2 mt-4">
+                    <div className="flex justify-end items-center gap-2 mt-4">
 
-                      <button
-                        onClick={() =>
-                          updateBookingStatus(
-                            booking.id,
-                            "confirmed"
-                          )
-                        }
-                        className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm"
-                      >
-                        Accept
-                      </button>
+                      {booking.status === "pending" ? (
 
-                      <button
-                        onClick={() =>
-                          updateBookingStatus(
-                            booking.id,
-                            "cancelled"
-                          )
-                        }
-                        className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm"
-                      >
-                        Reject
-                      </button>
+                        <>
+
+                          {/* ACCEPT */}
+                          <button
+                            onClick={() =>
+                              updateBookingStatus(
+                                booking.id,
+                                "confirmed"
+                              )
+                            }
+                            className="w-7 h-7 rounded-full border border-green-500 flex items-center justify-center hover:bg-green-50 transition"
+                          >
+
+                           <Check className="w-4 h-4 text-green-600" />
+
+                          </button>
+
+                          {/* REJECT */}
+                          <button
+                            onClick={() =>
+                              updateBookingStatus(
+                                booking.id,
+                                "cancelled"
+                              )
+                            }
+                            className="w-7 h-7 rounded-full border border-red-500 flex items-center justify-center hover:bg-red-50 transition"
+                          >
+
+                           <X className="w-4 h-4 text-red-600"/>
+
+                          </button>
+
+                        </>
+
+                      ) : booking.status === "confirmed" ? (
+
+                        <span className="px-3 py-1 rounded-lg text-sm font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                          Accepted
+                        </span>
+
+                      ) : (
+
+                        <span className="px-3 py-1 rounded-lg text-sm font-medium bg-red-100 text-red-700 border border-red-200">
+                          Rejected
+                        </span>
+
+                      )}
 
                     </div>
 
