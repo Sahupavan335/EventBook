@@ -25,6 +25,16 @@ export const Navbar = () => {
   const userName = user?.name || "";
   const userRole = user?.role || "";
 
+  const navLinkClass = (path) => {
+
+    return `text-sm font-medium transition ${
+      location.pathname === path
+        ? "text-slate-950 font-semibold"
+        : "text-slate-600 hover:text-slate-950"
+    }`;
+
+  };
+
   /* ===========================
      CLOSE PROFILE MENU
   =========================== */
@@ -87,44 +97,28 @@ export const Navbar = () => {
 
             <Link
               to="/"
-              className={`text-slate-600 hover:text-slate-950 font-medium text-sm ${
-                location.pathname === "/"
-                  ? "text-black font-semibold"
-                  : ""
-              }`}
+              className={navLinkClass("/")}
             >
               Home
             </Link>
 
             <Link
               to="/about"
-              className={`text-slate-600 hover:text-slate-950 font-medium text-sm ${
-                location.pathname === "/about"
-                  ? "text-black font-semibold"
-                  : ""
-              }`}
+              className={navLinkClass("/about")}
             >
               About
             </Link>
 
             <Link
               to="/services"
-              className={`text-slate-600 hover:text-slate-950 font-medium text-sm ${
-                location.pathname === "/services"
-                  ? "text-black font-semibold"
-                  : ""
-              }`}
+              className={navLinkClass("/services")}
             >
               Services
             </Link>
 
             <Link
               to="/contact"
-              className={`text-slate-600 hover:text-slate-950 font-medium text-sm ${
-                location.pathname === "/contact"
-                  ? "text-black font-semibold"
-                  : ""
-              }`}
+              className={navLinkClass("/contact")}
             >
               Contact
             </Link>
@@ -136,11 +130,7 @@ export const Navbar = () => {
 
                 <Link
                   to="/login"
-                  className={`text-slate-600 hover:text-slate-950 font-medium text-sm ${
-                    location.pathname === "/login"
-                      ? "text-black font-semibold"
-                      : ""
-                  }`}
+                  className={navLinkClass("/login")}
                 >
                   Login
                 </Link>
@@ -166,7 +156,7 @@ export const Navbar = () => {
                   onClick={() =>
                     setShowProfileMenu(!showProfileMenu)
                   }
-                  className="flex items-center gap-3"
+                  className="flex items-center gap-3 hover:bg-slate-100 transition px-2 py-2 rounded-2xl"
                 >
 
                   <div className="w-10 h-10 rounded-full bg-slate-950 text-white flex items-center justify-center text-sm font-medium">

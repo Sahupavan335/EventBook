@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { Camera, Music, Palette, UtensilsCrossed, Sparkles, ClipboardList } from "lucide-react";
+import { Camera, Music, Palette, Utensils, Sparkles, ClipboardList } from "lucide-react";
 
 const CATEGORY_CONFIG = {
   photography: { icon: Camera, label: "Photography", color: "bg-blue-50 text-blue-700" },
   dj: { icon: Music, label: "DJ & Music", color: "bg-purple-50 text-purple-700" },
   decoration: { icon: Palette, label: "Decoration", color: "bg-rose-50 text-rose-700" },
-  catering: { icon: UtensilsCrossed, label: "Catering", color: "bg-amber-50 text-amber-700" },
+  catering: { icon: Utensils, label: "Catering", color: "bg-amber-50 text-amber-700" },
   makeup: { icon: Sparkles, label: "Makeup", color: "bg-pink-50 text-pink-700" },
   planning: { icon: ClipboardList, label: "Event Planning", color: "bg-emerald-50 text-emerald-700" },
 };

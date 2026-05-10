@@ -2,7 +2,7 @@ export const Contact = () => {
 
   return (
 
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gray-50">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-[#F8FAFC]">
 
       <div className="w-full max-w-xl">
 

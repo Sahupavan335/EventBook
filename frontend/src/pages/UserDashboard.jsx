@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CalendarDays, Clock, CheckCircle, User } from "lucide-react";
+import { CalendarDays, Clock, CheckCircle, ClipboardList, User, XCircle, BadgeCheck } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
@@ -18,6 +18,8 @@ export const UserDashboard = () => {
   const [total, setTotal] = useState(0);
   const [pending, setPending] = useState(0);
   const [completed, setCompleted] = useState(0);
+  const [confirmed, setConfirmed] = useState(0);
+  const [cancelled, setCancelled] = useState(0);
 
 
   // ✅ fetch bookings from backend
@@ -50,6 +52,14 @@ export const UserDashboard = () => {
           data.filter(b => b.status === "completed").length
         );
 
+        setConfirmed(
+          data.filter(b => b.status === "confirmed").length
+        );
+
+        setCancelled(
+          data.filter(b => b.status === "cancelled").length
+        );
+
       } catch (err) {
         console.error(err.message);
       } finally {
@@ -75,7 +85,7 @@ export const UserDashboard = () => {
 
   return (
 
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F8FAFC]">
 
       <div className="max-w-7xl mx-auto px-6 py-10">
 
@@ -89,45 +99,69 @@ export const UserDashboard = () => {
 
 
         {/* stats */}
-        <div className="grid md:grid-cols-3 gap-6 mt-8">
+        <div className="grid md:grid-cols-5 gap-6 mt-8">
 
           <div className="bg-white border rounded-xl p-6 flex justify-between items-center">
             <div>
-              <p className="text-xs tracking-wider text-slate-400">
+              <p className="text-xs tracking-wider text-slate-400 font-semibold">
                 TOTAL BOOKINGS
               </p>
               <h2 className="text-2xl font-bold mt-2">
                 {total}
               </h2>
             </div>
-            <CalendarDays className="text-slate-400" />
+            <ClipboardList className="text-violet-400" />
           </div>
 
           <div className="bg-white border rounded-xl p-6 flex justify-between items-center">
             <div>
-              <p className="text-xs tracking-wider text-slate-400">
+              <p className="text-xs tracking-wider text-slate-400 font-semibold">
                 PENDING
               </p>
               <h2 className="text-2xl font-bold mt-2">
                 {pending}
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 mt-1">
                 Awaiting confirmation
               </p>
             </div>
-            <Clock className="text-slate-400" />
+            <Clock className="text-amber-400" />
           </div>
 
           <div className="bg-white border rounded-xl p-6 flex justify-between items-center">
             <div>
-              <p className="text-xs tracking-wider text-slate-400">
+              <p className="text-xs tracking-wider text-slate-400 font-semibold">
+                ACCEPTED
+              </p>
+              <h2 className="text-2xl font-bold mt-2">
+                {confirmed}
+              </h2>
+            </div>
+            <BadgeCheck className="text-blue-400" />
+          </div>
+
+          <div className="bg-white border rounded-xl p-6 flex justify-between items-center">
+            <div>
+              <p className="text-xs tracking-wider text-slate-400 font-semibold">
+                CANCELLED
+              </p>
+              <h2 className="text-2xl font-bold mt-2">
+                {cancelled}
+              </h2>
+            </div>
+            <XCircle  className="text-red-400" />
+          </div>
+
+          <div className="bg-white border rounded-xl p-6 flex justify-between items-center">
+            <div>
+              <p className="text-xs tracking-wider text-slate-400 font-semibold">
                 COMPLETED
               </p>
               <h2 className="text-2xl font-bold mt-2">
                 {completed}
               </h2>
             </div>
-            <CheckCircle className="text-slate-400" />
+            <CheckCircle className="text-green-400" />
           </div>
 
         </div>

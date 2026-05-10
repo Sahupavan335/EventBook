@@ -124,7 +124,7 @@ export const getServices = (req, res) => {
       category,
       search,
       page = 1,
-      limit = 8,
+      limit,
       minPrice,
       maxPrice,
       rating
@@ -193,11 +193,17 @@ export const getServices = (req, res) => {
       values.push(Number(rating));
     }
 
-    const offset = (page - 1) * limit;
+    sql += " ORDER BY s.id DESC";
 
-    sql += " ORDER BY s.id DESC LIMIT ? OFFSET ?";
+    if (limit) {
 
-    values.push(Number(limit), Number(offset));
+      const offset = (page - 1) * limit;
+
+      sql += " LIMIT ? OFFSET ?";
+
+      values.push(Number(limit), Number(offset));
+
+    }
 
     db.query(sql, values, (err, result) => {
 

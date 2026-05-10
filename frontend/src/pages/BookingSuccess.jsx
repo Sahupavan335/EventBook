@@ -40,7 +40,7 @@ export const BookingSuccess = () => {
 
   return (
 
-    <div className="min-h-[80vh] flex items-center justify-center bg-slate-50">
+    <div className="min-h-[80vh] flex items-center justify-center bg-[#F8FAFC]">
 
       <div className="text-center max-w-md">
 

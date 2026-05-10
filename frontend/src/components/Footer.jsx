@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { Camera, Music, Palette, Utensils } from "lucide-react";
+import { Camera, Music, Palette, Utensils, Sparkles, ClipboardList } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 export const Footer = () => {
 
   const navigate = useNavigate();
+
+  const {user} = useAuth();
 
   const handleCategoryNav = (category) => {
     navigate(`/services?category=${encodeURIComponent(category)}`);
@@ -33,7 +36,11 @@ export const Footer = () => {
               </span>
 
               <span
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate(
+                  user?.role === "provider"
+                    ? "/provider-dashboard"
+                    : "/signup"
+                )}
                 className="block text-slate-400 hover:text-white transition text-sm cursor-pointer"
               >
                 Become a Provider
@@ -75,6 +82,22 @@ export const Footer = () => {
               >
                 <Utensils className="w-4 h-4 inline mr-2" />
                 Catering
+              </span>
+
+              <span
+                onClick={() => handleCategoryNav("Makeup")}
+                className="block text-slate-400 hover:text-white transition text-sm cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 inline mr-2" />
+                Makeup
+              </span>
+
+              <span
+                onClick={() => handleCategoryNav("Event Planning")}
+                className="block text-slate-400 hover:text-white transition text-sm cursor-pointer"
+              >
+                <ClipboardList className="w-4 h-4 inline mr-2" />
+                Event Planning
               </span>
 
             </div>

@@ -173,7 +173,7 @@ export const updateBookingStatus = (req, res) => {
   const { id } = req.params;
   let { status } = req.body;
 
-  const allowedStatus = ["pending", "confirmed", "cancelled"];
+  const allowedStatus = ["pending", "confirmed", "cancelled", "completed"];
 
   // normalize
   status = status?.toLowerCase();

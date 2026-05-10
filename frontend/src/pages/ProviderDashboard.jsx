@@ -223,6 +223,8 @@ export const ProviderDashboard = () => {
       toast.success(
         status === "confirmed"
           ? "Booking accepted"
+          : status === "completed"
+          ? "Event Completed"
           : "Booking rejected"
       );
 
@@ -240,7 +242,7 @@ export const ProviderDashboard = () => {
   const totalBookings = bookings.length;
 
   const earnings = bookings
-    .filter(b => b.status === "confirmed")
+    .filter(b => b.status === "completed")
     .reduce(
       (acc, curr) => acc + Number(curr.price || 0),
       0
@@ -248,7 +250,7 @@ export const ProviderDashboard = () => {
 
   return (
 
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F8FAFC]">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
@@ -342,7 +344,7 @@ export const ProviderDashboard = () => {
                 </p>
 
                 <h2 className="text-5xl font-bold text-slate-950 mt-3">
-                  ${earnings}
+                  $ {earnings}
                 </h2>
 
                 <p className="text-slate-500 mt-2 text-sm">
@@ -362,24 +364,32 @@ export const ProviderDashboard = () => {
         </div>
 
         {/* BOTTOM */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-6 mt-10">
 
           {/* BOOKINGS */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-6 min-h-[260px]">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 h-[650px] flex flex-col">
 
-            <h3 className="text-xl font-semibold text-slate-950 mb-6">
-              Recent Booking Requests
-            </h3>
+            <div className="flex items-center justify-between mb-6">
+
+              <h3 className="text-xl font-semibold text-slate-950">
+                Recent Booking Requests
+              </h3>
+
+              <span className="text-sm text-slate-400">
+                {bookings.length} Bookings
+              </span>
+
+            </div>
 
             {loading ? (
 
-              <div className="flex justify-center items-center h-[180px]">
+              <div className="flex justify-center items-center flex-1">
                 <p className="text-slate-400">Loading...</p>
               </div>
 
             ) : bookings.length === 0 ? (
 
-              <div className="flex items-center justify-center h-[180px]">
+              <div className="flex items-center justify-center flex-1">
 
                 <p className="text-slate-400 text-lg">
                   No booking requests yet
@@ -389,16 +399,16 @@ export const ProviderDashboard = () => {
 
             ) : (
 
-              <div className="space-y-4">
+              <div className="space-y-4 overflow-y-auto pr-2 flex-1">
 
                 {bookings.map((booking) => (
 
                   <div
                     key={booking.id}
-                    className="border rounded-xl p-4"
+                    className="border border-slate-200 rounded-2xl p-4 hover:shadow-sm transition"
                   >
 
-                    <div className="flex flex-col">
+                    <div className="flex items-start justify-between gap-4">
 
                       <div>
 
@@ -407,7 +417,9 @@ export const ProviderDashboard = () => {
                         </h4>
 
                         <p className="text-sm text-slate-500 mt-1">
-                          Date: {new Date(booking.booking_date).toLocaleDateString(
+                          Date: {new Date(
+                            booking.booking_date
+                          ).toLocaleDateString(
                             "en-US",
                             {
                               weekday: "short",
@@ -422,61 +434,90 @@ export const ProviderDashboard = () => {
                           Customer: {booking.customer}
                         </p>
 
+                        <p className="text-sm text-slate-500 mt-1">
+                          Price: {" "}
+                          <span className="font-semibold text-slate-900">
+                            ${booking.price}
+                          </span>
+                        </p>
+
                       </div>
 
-                    </div>
+                      <div className="flex items-center gap-2 mt-9">
 
-                    <div className="flex justify-end items-center gap-2 mt-4">
+                        {booking.status === "pending" ? (
 
-                      {booking.status === "pending" ? (
+                          <>
 
-                        <>
+                            {/* ACCEPT */}
+                            <button
+                              onClick={() =>
+                                updateBookingStatus(
+                                  booking.id,
+                                  "confirmed"
+                                )
+                              }
+                              className="w-8 h-8 rounded-full border border-green-500 flex items-center justify-center hover:bg-green-100 transition"
+                            >
 
-                          {/* ACCEPT */}
-                          <button
-                            onClick={() =>
-                              updateBookingStatus(
-                                booking.id,
-                                "confirmed"
-                              )
-                            }
-                            className="w-7 h-7 rounded-full border border-green-500 flex items-center justify-center hover:bg-green-50 transition"
-                          >
+                              <Check className="w-5 h-5 text-green-600" />
 
-                           <Check className="w-4 h-4 text-green-600" />
+                            </button>
 
-                          </button>
+                            {/* REJECT */}
+                            <button
+                              onClick={() =>
+                                updateBookingStatus(
+                                  booking.id,
+                                  "cancelled"
+                                )
+                              }
+                              className="w-8 h-8 rounded-full border border-red-500 flex items-center justify-center hover:bg-red-100 transition"
+                            >
 
-                          {/* REJECT */}
-                          <button
-                            onClick={() =>
-                              updateBookingStatus(
-                                booking.id,
-                                "cancelled"
-                              )
-                            }
-                            className="w-7 h-7 rounded-full border border-red-500 flex items-center justify-center hover:bg-red-50 transition"
-                          >
+                              <X className="w-5 h-5 text-red-600" />
 
-                           <X className="w-4 h-4 text-red-600"/>
+                            </button>
 
-                          </button>
+                          </>
 
-                        </>
+                        ) : booking.status === "confirmed" ? (
 
-                      ) : booking.status === "confirmed" ? (
+                          <div className="flex flex-col items-end gap-2">
 
-                        <span className="px-3 py-1 rounded-lg text-sm font-medium bg-blue-100 text-blue-700 border border-blue-200">
-                          Accepted
-                        </span>
+                            <span className="px-3 py-1 rounded-lg text-sm font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                              Accepted
+                            </span>
 
-                      ) : (
+                            <button
+                              onClick={() =>
+                                updateBookingStatus(
+                                  booking.id,
+                                  "completed"
+                                )
+                              }
+                              className="px-3 py-1 rounded-lg text-sm font-medium bg-green-100 text-green-700 border border-green-200 hover:bg-green-200 transition"
+                            >
+                              Complete
+                            </button>
 
-                        <span className="px-3 py-1 rounded-lg text-sm font-medium bg-red-100 text-red-700 border border-red-200">
-                          Rejected
-                        </span>
+                          </div>
 
-                      )}
+                        ) : booking.status === "completed" ? (
+
+                          <span className="px-3 py-1 rounded-lg text-sm font-medium bg-green-100 text-green-700 border border-green-200">
+                            Completed
+                          </span>
+
+                        ) : (
+
+                          <span className="px-3 py-1 rounded-lg text-sm font-medium bg-red-100 text-red-700 border border-red-200">
+                            Rejected
+                          </span>
+
+                        )}
+
+                      </div>
 
                     </div>
 
@@ -491,21 +532,29 @@ export const ProviderDashboard = () => {
           </div>
 
           {/* SERVICES */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-6 min-h-[260px]">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 h-[650px] flex flex-col">
 
-            <h3 className="text-xl font-semibold text-slate-950 mb-6">
-              My Services
-            </h3>
+            <div className="flex items-center justify-between mb-6">
+
+              <h3 className="text-xl font-semibold text-slate-950">
+                My Services
+              </h3>
+
+              <span className="text-sm text-slate-400">
+                {services.length} Services
+              </span>
+
+            </div>
 
             {loading ? (
 
-              <div className="flex justify-center items-center h-[180px]">
+              <div className="flex justify-center items-center flex-1">
                 <p className="text-slate-400">Loading...</p>
               </div>
 
             ) : services.length === 0 ? (
 
-              <div className="flex flex-col items-center justify-center h-[180px]">
+              <div className="flex flex-col items-center justify-center flex-1">
 
                 <p className="text-slate-400 text-lg">
                   No services yet
@@ -522,13 +571,13 @@ export const ProviderDashboard = () => {
 
             ) : (
 
-              <div className="space-y-4">
+              <div className="space-y-4 overflow-y-auto pr-2 flex-1">
 
                 {services.map((service) => (
 
                   <div
                     key={service.id}
-                    className="flex gap-4 border rounded-xl p-3"
+                    className="flex gap-4 border border-slate-200 rounded-2xl p-3 hover:shadow-md transition"
                   >
 
                     <img
@@ -543,7 +592,7 @@ export const ProviderDashboard = () => {
                         {service.title}
                       </h4>
 
-                      <p className="text-sm text-slate-500 mt-1">
+                      <p className="text-sm text-slate-500">
                         {service.category}
                       </p>
 

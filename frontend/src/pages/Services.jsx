@@ -158,7 +158,7 @@ export const Services = () => {
   =========================== */
   return (
 
-    <div className="max-w-7xl mx-auto px-4 py-10 bg-[#F8FAFC]">
+    <div className="max-w-full mx-auto px-20 py-10 bg-[#F8FAFC]">
 
       <h1 className="text-3xl font-bold text-slate-900">Services</h1>
       <p className="text-slate-500 mt-1">

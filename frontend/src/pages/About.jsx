@@ -12,7 +12,7 @@ import {
 
 export const About = () => {
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="min-h-screen bg-[#F8FAFC]">
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 py-16">
